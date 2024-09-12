@@ -1,19 +1,49 @@
-CREATE TABLE IF NOT EXISTS books (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    publisher VARCHAR(255) NOT NULL,
-    year INT NOT NULL
+CREATE TABLE IF NOT EXISTS literature (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(60) NOT NULL,
+    DAT DATETIME NOT NULL,
+    YEAR INT(11) NOT NULL,
+    PUBLISHER VARCHAR(60) NOT NULL,
+    QUANTITY INT(11) NOT NULL,
+    ISBN BIGINT(20) UNSIGNED NOT NULL,
+    NUMBER INT(11) NOT NULL,
+    LITERATE VARCHAR(60) NOT NULL,
+    FID_RES INT(11),
+    FOREIGN KEY (FID_RES) REFERENCES resource(Id)
 );
 
-INSERT INTO books (title, author, publisher, year) VALUES 
-('Кобзар', 'Тарас Шевченко', 'Веселка', 1840),
-('Захар Беркут', 'Іван Франко', 'Основи', 1883),
-('Тіні забутих предків', 'Михайло Коцюбинський', 'Літера', 1911),
-('Лісова пісня', 'Леся Українка', 'Дніпро', 1911),
-('Чорна рада', 'Пантелеймон Куліш', 'Веселка', 1857),
-('Хіба ревуть воли, як ясла повні?', 'Панас Мирний', 'Ранок', 1880),
-('Собор', 'Олесь Гончар', 'Український письменник', 1968),
-('Солодка Даруся', 'Марія Матіос', 'А-БА-БА-ГА-ЛА-МА-ГА', 2004),
-('Ворошиловград', 'Сергій Жадан', 'Фоліо', 2010),
-('Місто', 'Валер\'ян Підмогильний', 'Книгоспілка', 1928);
+CREATE TABLE IF NOT EXISTS author (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(60) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS book_authrs (
+    FID_BOOK INT(11),
+    FID_AUTH INT(11),
+    FOREIGN KEY (FID_BOOK) REFERENCES literature(Id),
+    FOREIGN KEY (FID_AUTH) REFERENCES author(Id),
+    PRIMARY KEY (FID_BOOK, FID_AUTH)
+);
+
+CREATE TABLE IF NOT EXISTS resource (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    IMG BLOB
+);
+
+INSERT INTO author (NAME) VALUES 
+('Тарас Шевченко'),
+('Леся Українка'),
+('Іван Франко');
+
+INSERT INTO resource (IMG) VALUES
+(NULL), (NULL), (NULL);
+
+INSERT INTO literature (NAME, DAT, YEAR, PUBLISHER, QUANTITY, ISBN, NUMBER, LITERATE, FID_RES) VALUES
+('Кобзар', '1840-01-01 00:00:00', 1840, 'Веселка', 100, 9789660374359, 1, 'Книга', 1),
+('Лісова пісня', '1911-01-01 00:00:00', 1911, 'Дніпро', 50, 9789660374388, 1, 'Книга', 2),
+('Захар Беркут', '1883-01-01 00:00:00', 1883, 'Основи', 80, 9789660374395, 1, 'Книга', 3);
+
+INSERT INTO book_authrs (FID_BOOK, FID_AUTH) VALUES 
+(1, 1),
+(2, 2),
+(3, 3);
