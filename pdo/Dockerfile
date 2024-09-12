@@ -13,6 +13,8 @@ RUN mkdir -p /run/mysqld && \
 
 COPY ./src/ /var/www/localhost/htdocs/
 
+COPY ./init.sql /docker-entrypoint-initdb.d/init.sql
+
 COPY supervisord.conf /etc/supervisord.conf
 
 EXPOSE 80 3306
